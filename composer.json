@@ -1,0 +1,19 @@
+{
+    "name": "faraimunashe/csv",
+    "description": "This package is built to simplify common csv operations done using laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Faraimunashe",
+            "email": "faraimunashe.m11@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Faraimunashe\\Csv\\": "src"
+        }
+    }
+}
