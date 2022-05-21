@@ -15,5 +15,12 @@
         "psr-4": {
             "Faraimunashe\\Csv\\": "src"
         }
+    },
+    "extra": {
+        "laravel":{
+            "providers":[
+                "Faraimunashe\\Csv\\CsvServiceProvider"
+            ]
+        }
     }
 }
