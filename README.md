@@ -5,3 +5,11 @@
 [![Latest Version](https://img.shields.io/github/release/Faraimunashe/Csv-package?style=plastic)](https://github.com/Faraimunashe/Csv-package/releases)
 
 ## This package is built to simplify common csv operations done using laravel
+
+## Installation
+
+Use Composer.
+
+```bash
+composer require faraimunashe/csv
+```
