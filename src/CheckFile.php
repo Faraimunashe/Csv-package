@@ -5,6 +5,7 @@ namespace Faraimunashe\Csv;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Faraimunashe\Csv\Classes\Validation\IntegerValidation;
 
 class CheckFile
 {
@@ -80,7 +81,8 @@ class CheckFile
 
         $rows = array();
         $error = array();
-        $row_number = 0;
+        $rr = array();
+        $row_number = 1;
         while ($csv_row = fgetcsv($csv, 0, $this->delimiter)) {
 
             $row_number++;
@@ -88,13 +90,35 @@ class CheckFile
             $encoded_row = array_map('utf8_encode', $csv_row);
 
             if (count($encoded_row) !== count($headers)) {
-                return 'Row ' . $row_number . '\'s length does not match the header length: ' . implode(', ', $encoded_row);
+
+                /*
+                    Compare each row to its headers
+                */
+                array_push($error, array("message" => "Header and rows did not match", "row"=> $row_number));
+
             } else {
+
+                /*
+                    validation checks
+                    first before populating the csv array
+                */
                 if ($encoded_row[0] === "" || $encoded_row[1] === "" || $encoded_row[2] === "" || $encoded_row[3] === "" || $encoded_row[4] === "" || $encoded_row[5] === "" || $encoded_row[6] === "" || $encoded_row[7] === "" || $encoded_row[8] === "" || $encoded_row[9] === "" || $encoded_row[10] === "") {
-                    $error[] = array_combine(["message" => "There is a null cell on row: "],  ["row_umber" => $row_number]);
-                } else {
-                    $rows[] = array_combine($headers, $encoded_row);
+
+                    //push null row errors to the error array
+                    array_push($error, array("message" => "There is a null cell", "row"=> $row_number));
+
                 }
+
+                if(!IntegerValidation::validateInt($encoded_row[9]))
+                {
+                    array_push($error, array("message" => "Expected interger, string given", "row"=> $row_number));
+                }
+
+
+                /*
+                    add the csv into an array
+                */
+                $rows[] = array_combine($headers, $encoded_row);
             }
 
             //if( $row_number === 5 ) break;
@@ -104,7 +128,7 @@ class CheckFile
                 "extension" => $extension,
                 "headers" => (object)$headers,
                 "rows" => null,
-                "error" => (object)$error,
+                "error" => $error,
                 "exception" => null
             ];
         }
