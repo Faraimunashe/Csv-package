@@ -56,7 +56,8 @@ class CheckFile
 
             return $this->result = (object)[
                 "extension" => $extension,
-                "headers" => (object)$headers,
+                "headers" => $headers,
+                "count" => count($headers),
                 "exception" => null
             ];
         } catch (Exception $e) {
